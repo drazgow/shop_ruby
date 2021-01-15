@@ -1,12 +1,10 @@
-# spec/requests/product_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe '/admin/products', type: :request do
   let(:valid_attributes) { { name: 'Sneakers', price: 49.99, quantity: 4 } }
   let(:invalid_attributes) { { name: '' } }
 
-  describe 'GET /admin/index' do
+  describe 'GET /index' do
     it 'renders a successful response' do
       Product.create! valid_attributes
       get admin_products_url
@@ -14,22 +12,22 @@ RSpec.describe '/admin/products', type: :request do
     end
   end
 
-  describe 'GET /admin/show' do
+  describe 'GET /show' do
     it 'renders a successful response' do
       product = Product.create! valid_attributes
-      get admin_products_url(product)
+      get admin_product_url(product)
       expect(response).to be_successful
     end
   end
 
-  describe 'GET /admin/new' do
+  describe 'GET /new' do
     it 'renders a successful response' do
       get new_admin_product_url
       expect(response).to be_successful
     end
   end
 
-  describe 'GET /admin/edit' do
+  describe 'GET /edit' do
     it 'render a successful response' do
       product = Product.create! valid_attributes
       get edit_admin_product_url(product)
@@ -37,7 +35,7 @@ RSpec.describe '/admin/products', type: :request do
     end
   end
 
-  describe 'POST /admin/create' do
+  describe 'POST /create' do
     context 'with valid parameters' do
       it 'creates a new Product' do
         expect do
@@ -47,7 +45,7 @@ RSpec.describe '/admin/products', type: :request do
 
       it 'redirects to the created product' do
         post admin_products_url, params: { product: valid_attributes }
-        expect(response).to redirect_to(product_url(Product.last))
+        expect(response).to redirect_to(admin_product_url(Product.last))
       end
     end
 
@@ -65,7 +63,7 @@ RSpec.describe '/admin/products', type: :request do
     end
   end
 
-  describe 'PATCH /admin/update' do
+  describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) { { name: 'name', price: 12, quantity: 123 } }
 
@@ -84,7 +82,7 @@ RSpec.describe '/admin/products', type: :request do
         product = Product.create! valid_attributes
         patch admin_product_url(product), params: { product: new_attributes }
         product.reload
-        expect(response).to redirect_to(product_url(product))
+        expect(response).to redirect_to(admin_product_url(product))
       end
     end
 
@@ -97,7 +95,7 @@ RSpec.describe '/admin/products', type: :request do
     end
   end
 
-  describe 'DELETE /admin/destroy' do
+  describe 'DELETE /destroy' do
     it 'destroys the requested product' do
       product = Product.create! valid_attributes
       expect do
