@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe '/products', type: :request do
   let(:valid_attributes) { { name: 'Sneakers', price: 49.99, quantity: 4 } }
 
+  before(:each) do
+    user = User.create(admin: false, email: "email@user.pl", password: 'asdasdfe342lf')
+    sign_in(user)
+  end
+
   describe 'GET /index' do
     it 'renders a successful response' do
       Product.create! valid_attributes

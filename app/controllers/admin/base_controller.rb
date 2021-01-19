@@ -4,8 +4,8 @@ module Admin
     layout 'admin'
     before_action :authorize_admin!
 
-    rescue_from AuthorizationError do
-      flash[:error] = e.received_message?
+    rescue_from AuthorizationError do |e|
+      flash[:error] = e.message
       redirect_to root_path
     end
 
