@@ -8,4 +8,5 @@ Rails.application.routes.draw do
       get 'home', to: 'home#index'
   end
   resources :products
+  resources :carts, only: %i[update destroy show]
 end
